@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jurnal Frisanti | Gaya Hidup & Properti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Blog Specific Styles */
+        :root {
+            /* Using global variables where possible, defining local specific ones */
+            --blog-surface: #FFFFFF;
+            --blog-surface-dark: #122620;
+        }
+
+        /* Hero Section Override/Specifics */
+        .blog-hero {
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-label span {
+            height: 1px;
+            width: 2rem;
+            background-color: var(--accent);
+        }
+
+        .hero-label p {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+        }
+
+        .blog-hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .blog-hero-description {
+            color: var(--text-gray);
+            font-size: 1.125rem;
+            line-height: 1.75;
+            max-width: 36rem;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .blog-hero {
+                padding: 6rem 1.5rem 4rem;
+                text-align: left;
+            }
+
+            .hero-label {
+                justify-content: flex-start;
+            }
+
+            .blog-hero-title {
+                font-size: 3.5rem;
+            }
+
+            .blog-hero-description {
+                margin: 0;
+            }
+        }
+
+        /* Featured Article */
+        .featured-section {
+            padding: 0 1.5rem 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .featured-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            background-color: var(--blog-surface);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .featured-card {
+                flex-direction: row;
+            }
+        }
+
+        .featured-image {
+            position: relative;
+            height: 20rem;
+            overflow: hidden;
+            flex: 2;
+        }
+
+        .featured-image-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.7s;
+        }
+
+        .featured-card:hover .featured-image-bg {
+            transform: scale(1.05);
+        }
+
+        .featured-content {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            align-self: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .featured-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .featured-excerpt {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Category Filters */
+        .blog-filters {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 1.5rem 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: flex-start;
+            /* Default mobile */
+        }
+
+        @media(min-width: 768px) {
+            .blog-filters {
+                justify-content: center;
+            }
+        }
+
+        .blog-filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--border-light);
+            background: transparent;
+            color: var(--text-gray);
+            border-radius: 9999px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .blog-filter-btn.active,
+        .blog-filter-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Articles Grid */
+        .articles-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .articles-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .articles-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .article-card {
+            background-color: white;
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .article-thumb {
+            height: 14rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+
+        .article-card:hover .article-thumb img {
+            transform: scale(1.1);
+        }
+
+        .article-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: rgba(4, 57, 39, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        .article-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .article-h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .article-desc {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* Blog CTA */
+        .blog-cta {
+            background-color: var(--primary);
+            color: white;
+            padding: 5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            background-image: radial-gradient(#B8A99A 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .blog-cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .blog-cta h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .blog-cta p {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Standard Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-section">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z">
+                    </path>
+                    <path clip-rule="evenodd"
+                        d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236ZM4.95178 15.2312L21.4543 41.6973C22.6288 43.5809 25.3712 43.5809 26.5457 41.6973L43.0534 15.223C43.0709 15.1948 43.0878 15.1662 43.104 15.1371L41.3563 14.1648C43.104 15.1371 43.1038 15.1374 43.104 15.1371L43.1051 15.135L43.1065 15.1325L43.1101 15.1261L43.1199 15.1082C43.1276 15.094 43.1377 15.0754 43.1497 15.0527C43.1738 15.0075 43.2062 14.9455 43.244 14.8701C43.319 14.7208 43.4196 14.511 43.5217 14.2683C43.6901 13.8679 44 13.0689 44 12.2609C44 10.5573 43.003 9.22254 41.8558 8.2791C40.6947 7.32427 39.1354 6.55361 37.385 5.94477C33.8654 4.72057 29.133 4 24 4C18.867 4 14.1346 4.72057 10.615 5.94478C8.86463 6.55361 7.30529 7.32428 6.14419 8.27911C4.99695 9.22255 3.99999 10.5573 3.99999 12.2609C3.99999 13.1275 4.29264 13.9078 4.49321 14.3607C4.60375 14.6102 4.71348 14.8196 4.79687 14.9689C4.83898 15.0444 4.87547 15.1065 4.9035 15.1529C4.91754 15.1762 4.92954 15.1957 4.93916 15.2111L4.94662 15.223L4.95178 15.2312ZM35.9868 18.996L24 38.22L12.0131 18.996C12.4661 19.1391 12.9179 19.2658 13.3617 19.3718C16.4281 20.1039 20.0901 20.5217 24 20.5217C27.9099 20.5217 31.5719 20.1039 34.6383 19.3718C35.082 19.2658 35.5339 19.1391 35.9868 18.996Z"
+                        fill-rule="evenodd"></path>
+                </svg>
+                <h2 class="logo-text">Frisanti</h2>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="index.html">Beranda</a>
+                <a href="properti.html">Koleksi</a>
+                <a href="profil.html">Tentang Kami</a>
+                <a href="blog.html" class="active">Jurnal</a>
+            </nav>
+
+            <button class="cta-button" onclick="window.location.href='https://wa.me/6281234567890'">
+                <svg class="wa-btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                        d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461a7.413 7.413 0 0 1 5.275 2.188 7.42 7.42 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112-.149.224-.579.73-.709.88-.131.149-.261.168-.486.056-.224-.112-.953-.351-1.815-1.12-.673-.6-1.125-1.34-1.257-1.565-.131-.224-.014-.345.098-.458.101-.101.224-.261.336-.393.112-.131.149-.224.224-.374.075-.149.037-.28-.019-.393-.056-.113-.504-1.214-.69-1.663-.181-.435-.366-.377-.504-.383-.131-.006-.28-.006-.429-.006-.149 0-.392.056-.597.28-.205.224-.784.766-.784 1.869 0 1.103.803 2.169.915 2.319.112.149 1.58 2.415 3.829 3.387 1.636.708 1.969.566 2.68.529.787-.041 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.067-.056-.094-.205-.149-.43-.261"
+                        fill-rule="evenodd"></path>
+                </svg>
+                Hubungi Kami
+            </button>
+            <button class="menu-toggle">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Blog Hero -->
+        <section class="blog-hero">
+            <div class="hero-label">
+                <span></span>
+                <p>Jurnal Eksekutif</p>
+            </div>
+            <h1 class="blog-hero-title">
+                Kehidupan Terkurasi <br> oleh Frisanti
+            </h1>
+            <p class="blog-hero-description">
+                Wawasan mendalam mengenai investasi properti premium, tren arsitektur, dan seni hidup mewah di
+                Indonesia.
+            </p>
+        </section>
+
+        <!-- Featured Article -->
+        <section class="featured-section">
+            <div class="featured-card">
+                <div class="featured-image">
+                    <div class="featured-image-bg"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALo1pTzec53zM_7OlQvMi2-enbKzfz7ttyK7E1DpZf_FwPZcCl_lAlP19MQs0mfc-UbMCUZekrJ94i6CdYjR872FDI0-7tWy_2jf5pAf9Jx0Sh9tMy8UJPlGS9VwZwy9f2wUkaVm9m0c7J1ZLKTYp7nrqNFhJi6_X48PQfDQi3W1DhZcsSC6bVlRQGZ9X7YBi2Yk_TztYizzD-0w4eP0ELGP107mxodVQMgOnBgIeJdutF1V8QLhs8IZRgvPHkBfuvSfPvkvfHZZU');">
+                    </div>
+                </div>
+                <div class="featured-content">
+                    <span class="featured-badge">Unggulan</span>
+                    <h2 class="featured-title">Masa Depan Hunian Tepi Pantai: Mengapa PIK adalah Monaco Baru</h2>
+                    <p class="featured-excerpt">Temukan mengapa individu dengan kekayaan bersih tinggi
+                        berbondong-bondong
+                        ke properti pesisir Jakarta Utara dan bagaimana lanskap ini mendefinisikan ulang kemewahan
+                        tropis.</p>
+                    <a href="#" class="read-more">
+                        Baca Artikel <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <div class="blog-filters">
+            <button class="blog-filter-btn active">Semua Artikel</button>
+            <button class="blog-filter-btn">Tren Pasar</button>
+            <button class="blog-filter-btn">Desain Interior</button>
+            <button class="blog-filter-btn">Arsitektur</button>
+            <button class="blog-filter-btn">Gaya Hidup</button>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-container">
+            <!-- Article 1 -->
+            <div class="article-card">
+                <div class="article-thumb">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkF2NZFo3RxojW55KOl0FMpdqP-03A3YxgcmYZY3fcjiIjuI6Diu1G9ltXRpXN5S8vL8ZxEZ1Ywms4EMZluQKNlPDLt6VmXd_Z7-R0RflHR6Wf4sQLShqWC8ViuStFpVfLXUpmGm2Pg7jMg6RR9VF_bY0BOKNeRgdNJIA7bhYcIsb9iLcBVegNftcYS4RHMlm-yXEhnFu3JIPtdQrc_C-PkzJ5kq7W2_fXsv0oniVvO55XlpXZa6aNeTdEAJNADX-TNq48avnZ-_w"
+                        alt="Interior">
+                    <div class="article-category">Desain</div>
+                </div>
+                <div class="article-body">
+                    <h3 class="article-h3">Tren Interior 2024: Kembalinya Marmer</h3>
+                    <p class="article-desc">Dari Calacatta Viola hingga Carrara klasik, temukan bagaimana batu alam
+                        membuat kebangkitan yang berani di interior kelas atas Jakarta.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya</a>
+                </div>
+            </div>
+
+            <!-- Article 2 -->
+            <div class="article-card">
+                <div class="article-thumb">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdbN7k4v0AM9iVNRM7odKE9b71hPXvoJrpdwTL9nB0VjNEuzW446s7sdLfbf57-mqSXG0aI8oEqT3Bi5RjRd8ZHoH-0HjTVHQIQesLk44rzn_-ECBQxnekQdJ9XFWO3GKQ7ZeHGqGcRz5L0w8YEuibpCtKHNKO544XU2Y4_CmwqvdetMxEPJQu4Z2GlF2bReddu97MdBogOhljeipAIYFj-qP12SrWrDj-wIPMNM39RWLph6q03ZWF5sniP0MtV3iOV7wYK0At6WI"
+                        alt="Commercial">
+                    <div class="article-category">Investasi</div>
+                </div>
+                <div class="article-body">
+                    <h3 class="article-h3">Diversifikasi dengan Properti Komersial</h3>
+                    <p class="article-desc">Panduan strategis bagi investor residensial yang ingin memperluas portofolio
+                        mereka ke ruang kantor premium.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya</a>
+                </div>
+            </div>
+
+            <!-- Article 3 -->
+            <div class="article-card">
+                <div class="article-thumb">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0DuVg3hNJNxqMiIilGRkO816egPdZi34uI-fzZ7_tf411WGq_NhKlQBqTuQX8bp2_CyV7eCMwqPkjMiP29cu7f3qJ5Cwjjt9pXtHjK_nwmeTJVvmzyW-300qLh5LeFsmqe6QCSgfespW0zmUHHnhF9eck_33TDtyOjgG2IlTU5myOWqdF1KsW40Qco3-AC4lC9sym7nBmbn1ImaeWHN1NWN2Z-CtLIKURS7nvU9wL9QqvsfHmpZnZefbvvxEnzv7XkbPwkrdM--0"
+                        alt="Smart Home">
+                    <div class="article-category">Teknologi</div>
+                </div>
+                <div class="article-body">
+                    <h3 class="article-h3">Rumah Pintar: Integrasi Teknologi dengan Tradisi</h3>
+                    <p class="article-desc">Cara menerapkan otomatisasi rumah canggih tanpa mengorbankan estetika klasik
+                        properti bersejarah Anda.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog CTA -->
+        <section class="blog-cta">
+            <div class="cta-pattern"></div>
+            <div class="blog-cta-content">
+                <h2>Bergabunglah dengan Lingkaran Dalam</h2>
+                <p>Dapatkan analisis pasar prioritas, daftar properti off-market, dan undangan acara privat langsung
+                    melalui WhatsApp pribadi Anda.</p>
+                <a class="filter-btn active" href="https://wa.me/6281234567890"
+                    style="text-decoration:none; background-color:white; color:var(--primary); border:none; padding:1rem 2rem;">
+                    Hubungi via WhatsApp
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Standard Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-header">
+                        <svg class="brand-icon" fill="currentColor" viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z">
+                            </path>
+                            <path clip-rule="evenodd"
+                                d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236ZM4.95178 15.2312L21.4543 41.6973C22.6288 43.5809 25.3712 43.5809 26.5457 41.6973L43.0534 15.223C43.0709 15.1948 43.0878 15.1662 43.104 15.1371L41.3563 14.1648C43.104 15.1371 43.1038 15.1374 43.104 15.1371L43.1051 15.135L43.1065 15.1325L43.1101 15.1261L43.1199 15.1082C43.1276 15.094 43.1377 15.0754 43.1497 15.0527C43.1738 15.0075 43.2062 14.9455 43.244 14.8701C43.319 14.7208 43.4196 14.511 43.5217 14.2683C43.6901 13.8679 44 13.0689 44 12.2609C44 10.5573 43.003 9.22254 41.8558 8.2791C40.6947 7.32427 39.1354 6.55361 37.385 5.94477C33.8654 4.72057 29.133 4 24 4C18.867 4 14.1346 4.72057 10.615 5.94478C8.86463 6.55361 7.30529 7.32428 6.14419 8.27911C4.99695 9.22255 3.99999 10.5573 3.99999 12.2609C3.99999 13.1275 4.29264 13.9078 4.49321 14.3607C4.60375 14.6102 4.71348 14.8196 4.79687 14.9689C4.83898 15.0444 4.87547 15.1065 4.9035 15.1529C4.91754 15.1762 4.92954 15.1957 4.93916 15.2111L4.94662 15.223L4.95178 15.2312ZM35.9868 18.996L24 38.22L12.0131 18.996C12.4661 19.1391 12.9179 19.2658 13.3617 19.3718C16.4281 20.1039 20.0901 20.5217 24 20.5217C27.9099 20.5217 31.5719 20.1039 34.6383 19.3718C35.082 19.2658 35.5339 19.1391 35.9868 18.996Z"
+                                fill-rule="evenodd"></path>
+                        </svg>
+                        <h3 class="brand-name">Frisanti</h3>
+                    </div>
+                    <p class="brand-description">Real estat mewah yang dirancang ulang. Menemukan tempat perlindungan
+                        sempurna untuk elit dunia.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">
+                            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44 0 .795.645 1.44 1.441 1.44.795 0 1.439-.645 1.439-1.44 0-.794-.644-1.44-1.439-1.44z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Properti</h4>
+                    <ul>
+                        <li><a href="#">Amerika Utara</a></li>
+                        <li><a href="#">Eropa</a></li>
+                        <li><a href="#">Asia Pasifik</a></li>
+                        <li><a href="#">Timur Tengah</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="profil.html">Tentang Kami</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="blog.html">Jurnal</a></li>
+                        <li><a href="#">Pers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li>123 Luxury Blvd, Suite 100</li>
+                        <li>Beverly Hills, CA 90210</li>
+                        <li style="margin-top: 0.5rem;"><a
+                                href="mailto:concierge@frisanti.com">concierge@frisanti.com</a></li>
+                        <li><a href="tel:+18005550199">+1 (800) 555-0199</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 Frisanti Real Estate. Hak Cipta Dilindungi.</p>
+                <div class="footer-links">
+                    <a href="#">Kebijakan Privasi</a>
+                    <a href="#">Syarat Layanan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/6281234567890" class="float-button whatsapp-float" aria-label="WhatsApp">
+            <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd"
+                    d="M18.403 5.633A8.919 8.919 0 0 0 12.053 3c-4.948 0-8.976 4.027-8.978 8.977 0 1.582.413 3.126 1.198 4.488L3 21.116l4.759-1.249a8.981 8.981 0 0 0 4.29 1.093h.004c4.947 0 8.975-4.027 8.977-8.977a8.926 8.926 0 0 0-2.627-6.35m-6.35 13.812h-.003a7.446 7.446 0 0 1-3.798-1.041l-.272-.162-2.824.741.753-2.753-.177-.282a7.448 7.448 0 0 1-1.141-3.971c.002-4.114 3.349-7.461 7.465-7.461a7.413 7.413 0 0 1 5.275 2.188 7.42 7.42 0 0 1 2.183 5.279c-.002 4.114-3.349 7.462-7.461 7.462m4.093-5.589c-.225-.113-1.327-.655-1.533-.73-.205-.075-.354-.112-.504.112-.149.224-.579.73-.709.88-.131.149-.261.168-.486.056-.224-.112-.953-.351-1.815-1.12-.673-.6-1.125-1.34-1.257-1.565-.131-.224-.014-.345.098-.458.101-.101.224-.261.336-.393.112-.131.149-.224.224-.374.075-.149.037-.28-.019-.393-.056-.113-.504-1.214-.69-1.663-.181-.435-.366-.377-.504-.383-.131-.006-.28-.006-.429-.006-.149 0-.392.056-.597.28-.205.224-.784.766-.784 1.869 0 1.103.803 2.169.915 2.319.112.149 1.58 2.415 3.829 3.387 1.636.708 1.969.566 2.68.529.787-.041 1.327-.542 1.514-1.066.187-.524.187-.973.131-1.067-.056-.094-.205-.149-.43-.261"
+                    fill-rule="evenodd"></path>
+            </svg>
+        </a>
+        <a href="#" class="float-button scroll-top" aria-label="Scroll to top">
+            <span class="material-symbols-outlined">arrow_upward</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
