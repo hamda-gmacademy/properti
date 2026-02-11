@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (filterBtns.length > 0 && propertyCards.length > 0) {
         filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 // Update Active State
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -70,5 +71,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
+    }
+
+    // 4. TOC Generation for Article Detail
+    const articleBody = document.querySelector('.article-body');
+    const tocList = document.getElementById('toc-list');
+    const tocToggle = document.getElementById('toc-toggle');
+
+    if (articleBody && tocList) {
+        // Generate TOC
+        const headings = articleBody.querySelectorAll('h2, h3');
+        headings.forEach((heading, index) => {
+            if (!heading.id) {
+                heading.id = `section-${index}`;
+            }
+
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${heading.id}`;
+            a.textContent = heading.textContent;
+
+            // Indent H3
+            if (heading.tagName === 'H3') {
+                li.style.marginLeft = '1.5rem';
+                a.style.fontSize = '0.95rem';
+            }
+
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById(heading.id).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // Toggle TOC
+        if (tocToggle) {
+            tocToggle.addEventListener('click', () => {
+                tocList.classList.toggle('collapsed');
+                const icon = tocToggle.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.textContent = tocList.classList.contains('collapsed') ? 'expand_more' : 'expand_less';
+                }
+            });
+        }
     }
 });
